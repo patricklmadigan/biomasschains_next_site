@@ -1,0 +1,8 @@
+# C:\Vercel\biomasschains_next_site\.gitignore
+.next/
+node_modules/
+out/
+.env*
+*.log
+public - Original image sixes/
+opt/

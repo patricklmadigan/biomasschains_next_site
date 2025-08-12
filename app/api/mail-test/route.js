@@ -8,9 +8,9 @@ export async function GET() {
     const t = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port,
-      secure: port === 465,
+      secure: port === 465,             // false for 587 STARTTLS
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-      requireTLS: port === 587,
+      requireTLS: port === 587,         // enforce STARTTLS
       tls: { minVersion: "TLSv1.2" },
       logger: true,
       debug: true,
@@ -18,7 +18,7 @@ export async function GET() {
 
     await t.verify();
     await t.sendMail({
-      from: BiomassChains <>,
+      from: `BiomassChains <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: process.env.MAIL_TO,
       subject: "SMTP test (Vercel)",
       text: "Hello from /api/mail-test",

@@ -17,7 +17,9 @@ export default function ResetCookiePrefsButton() {
             console.error(e);
           }
         }}
-        className="btn btn-secondary"
+        className="px-4 py-2 border border-gray-400 rounded-md text-sm font-medium 
+                   bg-transparent hover:bg-gray-700 hover:text-white 
+                   transition-colors duration-200"
       >
         Reset cookie preferences
       </button>

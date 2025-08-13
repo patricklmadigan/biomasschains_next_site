@@ -27,35 +27,43 @@ export const metadata = {
     canonical: "https://www.biomasschains.com"
   },
   robots: {
-    index: true, follow: true
+    index: true,
+    follow: true
   }
 };
 
 export default function RootLayout({ children }) {
   const org = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "BiomassChains",
-  "url": "https://www.biomasschains.com",
-  "description": "Global Biomass Supply Chains — Delivered.",
-  "foundingDate": "2025-01-01",
-  "address": { "@type": "PostalAddress", "addressCountry": "GB" },
-  "contactPoint": [
-    {
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "email": "patrick@biomasschains.com"
-    }
-  ]
-};
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "BiomassChains",
+    "url": "https://www.biomasschains.com",
+    "description": "Global Biomass Supply Chains — Delivered.",
+    "foundingDate": "2025-01-01",
+    "address": { "@type": "PostalAddress", "addressCountry": "GB" },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "patrick@biomasschains.com"
+      }
+    ]
+  };
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+      </head>
       <body>
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />
-        <Script id="org-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+        <Script
+          id="org-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}
+        />
         <Analytics />
       </body>
     </html>

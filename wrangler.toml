@@ -1,0 +1,6 @@
+name = "biomasschains-migration"
+pages_build_output_dir = "./out"
+compatibility_date = "2026-10-10"
+
+# Store MAIL_RELAY_URL, MAIL_RELAY_SECRET and TURNSTILE_SECRET_KEY as encrypted Pages secrets.
+# Both preview and production environments need separate explicit configuration.

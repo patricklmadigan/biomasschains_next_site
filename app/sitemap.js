@@ -4,8 +4,17 @@ export default function sitemap() {
   const now = new Date().toISOString();
 
   const routes = [
-    "", "/solutions", "/method", "/cases", "/about", "/contact", "/privacy", "/cookies",
+    "",
+    "/solutions",
+    "/method",
+    "/cases",
+    "/about",
+    "/contact",
+    "/privacy",
+    "/cookies",
     // long-form cases
+    "/cases/ireland-iceland-woodchip",
+    "/cases/wc-africa-residues",
     "/cases/usa-shovel-ready",
     "/cases/cameroon-eu",
     "/cases/south-africa",

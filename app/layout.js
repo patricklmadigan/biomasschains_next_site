@@ -6,11 +6,11 @@ import Script from "next/script";
 
 export const metadata = {
   metadataBase: new URL("https://www.biomasschains.com"),
-  title: "BiomassChains — Global Biomass Supply Chains Delivered",
-  description: "We build fast, compliant, profitable biomass supply chains: sourcing & compliance, GHG/LCA modeling, build-out & operations, and CORC/VER pathways.",
+  title: "BiomassChains — Biomass Supply-Chain Development",
+  description: "Specialist biomass supply-chain advisory and execution across resource screening, supplier diligence, compliance, logistics, GHG/LCA, contracts and first cargoes.",
   openGraph: {
-    title: "BiomassChains — Global Biomass Supply Chains Delivered",
-    description: "We build fast, compliant, profitable biomass supply chains worldwide.",
+    title: "BiomassChains — Biomass Supply-Chain Development",
+    description: "Practical biomass-chain development from resource idea to credible, compliant, bankable and executable supply chain.",
     url: "https://www.biomasschains.com",
     siteName: "BiomassChains",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
@@ -19,8 +19,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BiomassChains — Global Biomass Supply Chains Delivered",
-    description: "Execution-first biomass chains: compliance, logistics, LCA, credits.",
+    title: "BiomassChains — Biomass Supply-Chain Development",
+    description: "Resource screening, supplier diligence, compliance evidence, logistics, contracts and first cargoes.",
     images: ["/og-image.png"]
   },
   alternates: {
@@ -38,13 +38,13 @@ export default function RootLayout({ children }) {
     "@type": "Organization",
     "name": "BiomassChains",
     "url": "https://www.biomasschains.com",
-    "description": "Global Biomass Supply Chains — Delivered.",
+    "description": "Specialist biomass supply-chain advisory and execution for credible, compliant, bankable and executable supply chains.",
     "foundingDate": "2025-01-01",
     "address": { "@type": "PostalAddress", "addressCountry": "GB" },
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "contactType": "customer support",
+        "contactType": "business enquiries",
         "email": "patrick@biomasschains.com"
       }
     ]

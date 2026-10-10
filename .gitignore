@@ -3,6 +3,17 @@
 node_modules/
 out/
 .env*
+!.env.example
 *.log
 public - Original image sixes/
 opt/
+.wrangler/
+.dev.vars*
+.vercel/
+migration-evidence/
+screenshots/
+*.zip
+*.local
+public/optimized/
+public/images/cases/usa-shovel-ready/georgia-harvested-pine-logs.png
+public/images/cases/south-africa/handymax-woodchip-trimming.png

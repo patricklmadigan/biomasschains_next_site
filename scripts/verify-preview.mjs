@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 
 const preview = process.argv[2];
 if (!preview?.startsWith('https://')) throw new Error('Pass the HTTPS preview origin');
-const live = 'https://www.biomasschains.com';
+const live = process.argv[3]?.startsWith('https://') ? process.argv[3] : 'https://www.biomasschains.com';
+const production = process.argv.includes('--production');
 const routes = ['', '/about', '/solutions', '/method', '/cases', '/contact', '/privacy', '/cookies',
   '/cases/australia-carrier', '/cases/cameroon-eu', '/cases/ireland-iceland-woodchip',
   '/cases/russia-lignin', '/cases/south-africa', '/cases/usa-shovel-ready', '/cases/wc-africa-residues'];
@@ -34,14 +35,16 @@ for (const route of routes) {
   // The live Suspense form is only added after hydration; the export renders it
   // immediately. Compare its wording separately in the browser.
   const comparable = route === '/contact' ? newHtml.replace(/<form\b[^>]*>[\s\S]*?<\/form>/i, '') : newHtml;
-  const textMatches = visible(comparable)===visible(oldHtml);
+  const baselineComparable = route === '/contact' ? oldHtml.replace(/<form\b[^>]*>[\s\S]*?<\/form>/i, '') : oldHtml;
+  const textMatches = visible(comparable)===visible(baselineComparable);
   check(textMatches,`${route||'/'} body content differs`);
   let seoMatches = true;
   try { assert.deepEqual(seo(newHtml),seo(oldHtml)); } catch { seoMatches=false; }
   check(seoMatches,`${route||'/'} SEO differs`);
   for (const [key,value] of Object.entries(expectedHeaders)) check(next.headers.get(key)===value,`${route||'/'} missing ${key}`);
   check(next.headers.get('strict-transport-security')?.includes('max-age=31536000'),`${route||'/'} missing HSTS`);
-  check(next.headers.get('x-robots-tag')?.includes('noindex'),`${route||'/'} preview is not noindex`);
+  const noindex = next.headers.get('x-robots-tag')?.includes('noindex') || false;
+  check(production ? !noindex : noindex,`${route||'/'} ${production ? 'production is noindex' : 'preview is not noindex'}`);
   for (const m of newHtml.matchAll(/<(?:img|script|link)\b[^>]*>/g)) {
     const a = attributes(m[0]);
     if (a.src?.startsWith('/')) assetPaths.add(a.src);
@@ -97,6 +100,6 @@ const crossOrigin=await fetch(preview+'/api/contact',{method:'POST',headers:{ori
 check(crossOrigin.status===403,'Cross-origin submission must be rejected');
 report.checks.push({contactGet:method.status,invalidChallenge:invalid.status,crossOrigin:crossOrigin.status});
 await fs.mkdir('migration-evidence',{recursive:true});
-await fs.writeFile('migration-evidence/preview-http.json',JSON.stringify(report,null,2));
+await fs.writeFile(`migration-evidence/${production ? 'production' : 'preview'}-http.json`,JSON.stringify(report,null,2));
 console.log(JSON.stringify({pages:report.pages,assetAndLinkRequests:report.assets.length,checks:report.checks,failures:report.failures},null,2));
 if(report.failures.length) process.exitCode=1;

@@ -1,6 +1,6 @@
 # Cloudflare migration
 
-Cutover completed with explicit owner approval on 10 October 2026. Both public website names now use Cloudflare Pages Free. Hostinger email records, GitHub `main` and the active Vercel project/subscription were preserved.
+Cutover completed with explicit owner approval on 10 October 2026. Both public website names now use Cloudflare Pages Free. DNS propagation and production health were rechecked on 11 October; the owner-authorised Vercel Pro cancellation then completed before the 12 October renewal. Hostinger email records, GitHub `main`, the Vercel project and invoice history were preserved.
 
 ## Public deployment and cutover results
 
@@ -13,9 +13,20 @@ Cutover completed with explicit owner approval on 10 October 2026. Both public w
 - Public production checks passed all 15 pages and 367 linked assets/navigation requests, including content, SEO, security headers, indexability, robots/sitemap, redirects, unknown routes and contact rejection cases.
 - A real production form submission returned HTTP 200 after SMTP acceptance and used 5 ms CPU. The owner independently submitted from the public www domain on an Android phone over mobile data and supplied an inbox screenshot confirming receipt of the message “Cloudflare domain cutover verification” at the existing Hostinger mailbox.
 - The canonical redirect excludes `/.well-known/` paths so certificate validation and renewal remain on the requested hostname. Ordinary apex URLs return 308; HTTP www URLs upgrade to HTTPS. Minimum TLS is 1.2, TLS 1.3 is enabled and Always Use HTTPS is enabled.
-- The prior Vercel site at https://biomasschains-next-site.vercel.app/ still returns HTTP 200. Some local ISP caches still used the old nameservers at verification time; Vercel remains available throughout propagation. No computer DNS or hosts-file override was made.
+- At the 10 October cutover, the prior Vercel site at https://biomasschains-next-site.vercel.app/ returned HTTP 200 and remained available while some local ISP caches still used the old nameservers. The following day's normal-connection check resolved Cloudflare. No computer DNS or hosts-file override was made.
 
 The initial DNS import expanded incorrectly formatted names and destinations from Hostinger's export. Those duplicates were removed with owner approval, and the normalized zone was verified before changing nameservers. The apex redirect initially interfered with Pages certificate validation; excluding the validation paths resolved it and both domain certificates became active. These issues are resolved.
+
+## Propagation and billing completion — 11 October 2026
+
+- At approximately 10:02 BST, normal system DNS and Cloudflare, Google and Quad9 public DNS all returned the Cloudflare delegation and Cloudflare IPv4/IPv6 website destinations for both apex and www. All 20 NS/A/AAAA questions succeeded. This establishes completed propagation on the checked networks; it cannot inspect every private resolver worldwide.
+- Through normal DNS, all 15 public pages matched the approved immutable preview for content and SEO. All 367 linked asset/navigation requests, security headers, robots/sitemap, canonical redirects, unknown routes and contact rejection checks passed with no failures.
+- Independent connections validated trusted TLS 1.3 certificates for both names. Eighteen public DNS checks again confirmed the Hostinger mail records and delegation. The apex returned 308 to HTTPS www; www and the Plausible script returned 200; an unsigned relay request returned 401. The owner's earlier public-domain inbox receipt remains the evidence for real contact delivery.
+- The Vercel audit found one team, one obsolete website project, no connected stores and no enabled paid add-ons. The owner confirmed that any remaining Vercel projects were unwanted and explicitly authorised cancellation after successful propagation/health checks.
+- Vercel's **Downgrade from Pro** confirmation stated that Pro features would end immediately, all payments would stop and unused plan time would receive a **$0.80 refund**. That figure is the displayed refund quote, not independent evidence of a processed bank credit.
+- The downgrade completed at approximately 10:05 BST. The billing page explicitly confirmed **Hobby Plan — Active**, replacing the Pro subscription before its 12 October renewal. No team, project, account, domain or invoice history was deleted.
+- After cancellation, normal-connection HTTPS checks at 10:07 BST again returned 200 with `Server: cloudflare` for the apex's redirected website and the public www contact page.
+- Native confirmation evidence is retained privately in `migration-evidence/screenshots/vercel-hobby-confirmed-2026-10-11.jpg`. The now-unnecessary scheduled DNS/cancellation follow-up was paused after success.
 
 ## Preview and source baseline
 
@@ -100,7 +111,7 @@ The checked export contains approximately 902 files and 253 MB in total. The lar
 | Dynamic requests | Contact endpoint only | 100,000 per day, shared account quota |
 | Static requests | Pages CDN | Free static hosting |
 
-Estimated additional recurring cost is **$0/month** for Pages, the contact function, Turnstile and the relay under the existing Hostinger plan. Existing domain registration, Hostinger/mailbox and Plausible arrangements continue at their existing costs. Hostinger web hosting is already paid through 13 November 2028 and also serves other sites. No paid Cloudflare service or new subscription was enabled. Vercel remains active at the owner's request, so the stated $24/month subscription is still payable. Cancelling it later would save $288/year; other Vercel projects must be checked and explicit owner approval obtained before cancelling.
+Estimated additional recurring cost is **$0/month** for Pages, the contact function, Turnstile and the relay under the existing Hostinger plan. Existing domain registration, Hostinger/mailbox and Plausible arrangements continue at their existing costs. Hostinger web hosting is already paid through 13 November 2028 and also serves other sites. No paid Cloudflare service or new subscription was enabled. Vercel Pro was cancelled on 11 October 2026 and the account now shows the free Hobby plan. Ending the owner's stated $24/month subscription saves approximately **$288/year**.
 
 Moving the entire mailbox to Cloudflare is a separate decision. Email Routing forwards incoming mail to another inbox; it does not supply a conventional hosted mailbox. General outbound sending requires Workers Paid (currently $5/month minimum), while sending to verified destination addresses is free. Retaining the existing Hostinger mailbox/relay is the lowest incremental-cost option for this migration.
 
@@ -128,8 +139,8 @@ node scripts/verify-preview.mjs https://www.biomasschains.com https://749adf64.b
 
 This uses the computer's configured DNS. During stale local DNS caching, independent verification used a private test-only public-resolver helper; it did not change system settings and still enforced normal TLS certificate validation.
 
-Keep Vercel and the saved DNS export available until propagation has completed. For a website-only rollback, replace the apex Pages CNAME with the prior DNS-only A records `216.150.1.1` and `76.76.21.21`, and restore the DNS-only www CNAME to `cname.vercel-dns.com`. Preserve every email record. The Cloudflare redirect applies to proxied traffic, so DNS-only Vercel destinations use Vercel's existing redirect behavior. A nameserver rollback to `ns1.dns-parking.com` and `ns2.dns-parking.com` requires the complete prior Hostinger zone to remain intact; it must not restore only website records.
+The Vercel project and saved DNS export remain available as historical rollback references. Vercel is now on Hobby; check deployment availability and plan suitability before any rollback. For an owner-approved website-only rollback, replace the apex Pages CNAME with the prior DNS-only A records `216.150.1.1` and `76.76.21.21`, and restore the DNS-only www CNAME to `cname.vercel-dns.com`. Preserve every email record. The Cloudflare redirect applies to proxied traffic, so DNS-only Vercel destinations use Vercel's existing redirect behavior. A nameserver rollback to `ns1.dns-parking.com` and `ns2.dns-parking.com` requires the complete prior Hostinger zone to remain intact; it must not restore only website records.
 
-The remaining billing step is deliberately deferred: after propagation and explicit owner authorisation, check whether any other Vercel projects require Pro before discontinuing the subscription. This migration has not cancelled or downgraded Vercel.
+The billing step is complete: propagation and production checks passed, no remaining project required Pro, and the owner-authorised downgrade was verified on 11 October 2026. GitHub `main` remains unchanged; all migration source and documentation are on `cloudflare-migration`.
 
 Keep recovered source, DNS evidence and deployment test evidence privately for rollback. None belongs in the public deployment or Git history.

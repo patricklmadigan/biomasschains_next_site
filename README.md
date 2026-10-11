@@ -2,7 +2,7 @@
 
 The `cloudflare-migration` branch preserves the current deployed BiomassChains website and exports it for Cloudflare Pages Free. The contact endpoint runs as a small Pages Function and delivers through a private relay on the existing Hostinger hosting plan.
 
-The owner-approved cutover completed on 10 October 2026. [www.biomasschains.com](https://www.biomasschains.com/) runs on Cloudflare; the apex redirects to HTTPS www. Hostinger email and the active Vercel fallback remain intact. See [MIGRATION.md](MIGRATION.md) for validation, costs and rollback details.
+The owner-approved cutover completed on 10 October 2026. [www.biomasschains.com](https://www.biomasschains.com/) runs on Cloudflare; the apex redirects to HTTPS www. DNS propagation and production checks passed on 11 October, and Vercel Pro was cancelled before the 12 October renewal; Vercel now confirms Hobby Plan — Active. Hostinger email and the retained Vercel project remain intact. See [MIGRATION.md](MIGRATION.md) for validation, costs and rollback details.
 
 ## Build and preview
 

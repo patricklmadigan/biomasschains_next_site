@@ -1,6 +1,6 @@
 # Cloudflare migration
 
-Cutover completed with explicit owner approval on 10 October 2026. Both public website names now use Cloudflare Pages Free. DNS propagation and production health were rechecked on 11 October; the owner-authorised Vercel Pro cancellation then completed before the 12 October renewal. Hostinger email records, GitHub `main`, the Vercel project and invoice history were preserved.
+Cutover completed with explicit owner approval on 10 October 2026. Both public website names now use Cloudflare Pages Free. DNS propagation and production health were rechecked on 11 October; the owner-authorised Vercel Pro cancellation then completed before the 12 October renewal. On 21 October, the owner approved permanent removal of the obsolete Vercel project and all remaining Vercel-only domain entries. Hostinger email records, GitHub `main`, the Cloudflare deployment and Vercel account/invoice history remain intact.
 
 ## Public deployment and cutover results
 
@@ -27,6 +27,20 @@ The initial DNS import expanded incorrectly formatted names and destinations fro
 - The downgrade completed at approximately 10:05 BST. The billing page explicitly confirmed **Hobby Plan — Active**, replacing the Pro subscription before its 12 October renewal. No team, project, account, domain or invoice history was deleted.
 - After cancellation, normal-connection HTTPS checks at 10:07 BST again returned 200 with `Server: cloudflare` for the apex's redirected website and the public www contact page.
 - Native confirmation evidence is retained privately in `migration-evidence/screenshots/vercel-hobby-confirmed-2026-10-11.jpg`. The now-unnecessary scheduled DNS/cancellation follow-up was paused after success.
+
+## Vercel resource removal — 21 October 2026
+
+Vercel's email about two misconfigured domains was caused by the old project's domain associations remaining after the successful DNS migration. The public website and email records were healthy; restoring Vercel DNS was unnecessary.
+
+- The signed-in audit found one Hobby team, one project (`biomasschains-next-site`) and one externally registered team domain entry (`biomasschains.com`). There were no connected stores, installed marketplace integrations or shared environment variables.
+- After reviewing the irreversible-deletion dialog, the owner explicitly approved permanent deletion of the project, its deployments/functions/environment variables/domain associations, and any remaining Vercel-only entries for apex and www.
+- The project deletion completed and the dashboard now shows **Deploy your first project**, with no recent previews. This removes the project's production/preview deployments, serverless functions, stored environment variables, settings and associations for biomasschains.com and www.biomasschains.com.
+- The remaining team-level `biomasschains.com` entry was then deleted separately. Vercel confirmed that no aliases remained in its deletion scope, and the Domains page now shows **Add a domain** with an empty list. Hostinger remains the registrar; no Cloudflare or Hostinger DNS settings were changed.
+- The free Hobby account and invoice history were retained. GitHub repositories and their history were not removed. Deleting the Vercel project also removes its GitHub deployment connection, so subsequent migration-branch commits cannot trigger that old Vercel project.
+- After removal, all 15 public pages and 367 asset/navigation requests again passed the production comparison. Trusted HTTPS for both names, canonical redirects, SEO/security headers, robots/sitemap, contact rejection cases, the Plausible script and relay authentication protection passed. All 18 mail/delegation checks across public DNS passed. This check sent no new email; actual delivery was previously confirmed by the owner's public-domain inbox receipt.
+- Private native screenshots record the deletion review and the empty Projects/Domains pages in `migration-evidence/screenshots/`, dated `2026-10-21`.
+
+The obsolete domain configurations that triggered Vercel's warning have been removed. Vercel is no longer a hosting fallback for this website.
 
 ## Preview and source baseline
 
@@ -75,7 +89,7 @@ The public Turnstile site key and Plausible domain are in `.env.example`. The wi
 
 Copy `relay/config.example.php` outside the relay's web root as `biomasschains-relay-config.php` and populate `RELAY_SECRET`, `SMTP_USER`, `SMTP_PASS` and `MAIL_TO` privately. The actual mailbox password must never be copied into this repository or a Cloudflare browser setting prefixed with `NEXT_PUBLIC_`.
 
-The SMTP password previously stored in Vercel was rejected by Hostinger. The owner supplied the current password through a local password-entry page; the new private relay configuration authenticated successfully. The original Vercel environment was left untouched.
+The SMTP password previously stored in Vercel was rejected by Hostinger. The owner supplied the current password through a local password-entry page; the new private relay configuration authenticated successfully. The original Vercel environment was left untouched during migration, then removed with the obsolete project on 21 October.
 
 The old SMTP credentials were removed from the isolated Cloudflare project's bindings after the relay was configured. No SMTP password is needed in Cloudflare. Local `.env*` secrets, `.dev.vars`, recovered deployment files, request logs and screenshots remain ignored.
 
@@ -139,7 +153,9 @@ node scripts/verify-preview.mjs https://www.biomasschains.com https://749adf64.b
 
 This uses the computer's configured DNS. During stale local DNS caching, independent verification used a private test-only public-resolver helper; it did not change system settings and still enforced normal TLS certificate validation.
 
-The Vercel project and saved DNS export remain available as historical rollback references. Vercel is now on Hobby; check deployment availability and plan suitability before any rollback. For an owner-approved website-only rollback, replace the apex Pages CNAME with the prior DNS-only A records `216.150.1.1` and `76.76.21.21`, and restore the DNS-only www CNAME to `cname.vercel-dns.com`. Preserve every email record. The Cloudflare redirect applies to proxied traffic, so DNS-only Vercel destinations use Vercel's existing redirect behavior. A nameserver rollback to `ns1.dns-parking.com` and `ns2.dns-parking.com` requires the complete prior Hostinger zone to remain intact; it must not restore only website records.
+Use a previously verified Cloudflare Pages deployment or a rebuilt static export for rollback, preserving the contact bindings and all email records. Source history, the approved immutable preview and the saved original DNS export remain available as references.
+
+The former Vercel project was permanently deleted on 21 October. **Restoring the old Vercel DNS destinations alone will not restore the website.** Returning to Vercel would require a separately approved project/deployment setup, a suitable plan and verified current email credentials before any DNS change. The former A records (`216.150.1.1`, `76.76.21.21`) and www CNAME (`cname.vercel-dns.com`) are historical values only. The former Hostinger nameservers (`ns1.dns-parking.com`, `ns2.dns-parking.com`) likewise must not be restored without a complete, currently verified zone and working website destination.
 
 The billing step is complete: propagation and production checks passed, no remaining project required Pro, and the owner-authorised downgrade was verified on 11 October 2026. GitHub `main` remains unchanged; all migration source and documentation are on `cloudflare-migration`.
 

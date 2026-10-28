@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="icon" href="/favicon.png?v=f448daab" type="image/png" />
       </head>
       <body>
         <Navbar />

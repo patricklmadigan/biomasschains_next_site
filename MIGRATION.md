@@ -5,7 +5,7 @@ Cutover completed with explicit owner approval on 10 October 2026. Both public w
 ## Public deployment and cutover results
 
 - Public website: https://www.biomasschains.com/. The apex https://biomasschains.com/ redirects to HTTPS www with the original path and query string preserved.
-- Pages production deployment: `fa657c8d-d9c4-4391-94ff-c47597b02ac4`, built from approved application commit `d297bc83a5b065e01be0e9789fd4b685b02d1638` on `cloudflare-migration`.
+- Current Pages production deployment: `ea066345-227a-45e2-a39e-8979905c10cf`, built from favicon release commit `a1606ef` on `cloudflare-migration` on 28 October 2026. The prior approved deployment `fa657c8d-d9c4-4391-94ff-c47597b02ac4` (application commit `d297bc83a5b065e01be0e9789fd4b685b02d1638`) remains a rollback reference.
 - Production provider URL: https://biomasschains-migration.pages.dev/.
 - Both custom domains, DNS verification and certificate validation report `active`. Independent public-DNS connections verified trusted TLS 1.3 certificates for both names without disabling certificate checks.
 - Cloudflare Free zone nameservers: `ezra.ns.cloudflare.com` and `ryleigh.ns.cloudflare.com`. Domain registration remains with Hostinger.
@@ -42,6 +42,15 @@ Vercel's email about two misconfigured domains was caused by the old project's d
 - Private native screenshots record the deletion review and the empty Projects/Domains pages in `migration-evidence/screenshots/`, dated `2026-10-21`.
 
 The obsolete domain configurations that triggered Vercel's warning have been removed. Vercel is no longer a hosting fallback for this website.
+
+## Favicon release — 28 October 2026
+
+- The owner supplied a new transparent, 1024 × 1024 PNG. It is stored at `public/favicon.png`; the old file remains in the owner's separate working-copy backup and in Git history.
+- The shared layout references `/favicon.png?v=f448daab`, using the new image's content-hash prefix to make browsers request the replacement icon. The PNG is 46,531 bytes; both the unversioned and versioned live URLs match the supplied file's SHA-256 exactly.
+- A production build generated all 15 pages plus the 404 page, validated the refreshed favicon link in all 16 HTML files and passed the Free asset limits: 902 files, 252,192,315 bytes total, largest file 24.34 MiB. The export was checked for the known private credentials before upload, and all three production contact bindings remained encrypted.
+- The owner explicitly authorised publishing. Wrangler deployed the existing `biomasschains-migration` project on its existing production branch; Cloudflare confirmed production deployment `ea066345-227a-45e2-a39e-8979905c10cf` succeeded, with both custom domains attached.
+- Production and provider URLs serve the new PNG with HTTP 200 and `image/png`; `/old_favicon.png` returns 404. The apex redirect preserves the path and query. Both HTTPS certificates are trusted and all 18 public mail/delegation DNS checks passed. No DNS, email arrangement, hosting plan or GitHub `main` change was required.
+- The post-deployment production comparison passed all 15 pages and 367 asset/navigation requests, including content, SEO, security headers, indexability, robots/sitemap, redirects and expected contact rejections (GET 405, invalid challenge 400, cross-origin 403). The Plausible script returned 200 and the unsigned relay probe returned 401. A timed verification rerun completed with no failures after the initial checker connection stalled. No new SMTP test email was sent for this favicon-only release.
 
 ## Preview and source baseline
 
